@@ -31,6 +31,7 @@ defmodule Rumbl.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import Rumbl.Router.Helpers
+      import Rumbl.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -51,6 +52,8 @@ defmodule Rumbl.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import Rumbl.Auth, only: [authenticate_user: 2]
     end
   end
 
