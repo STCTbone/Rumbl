@@ -17,7 +17,7 @@ defmodule Rumbl.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [mod: {Rumbl, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+     applications: [:phoenix, :phoenix_html, :comeonin, :cowboy, :logger,
                     :phoenix_ecto, :postgrex]]
   end
 
@@ -34,6 +34,7 @@ defmodule Rumbl.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.1"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 1.2"}]
   end
 end
