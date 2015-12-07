@@ -1,5 +1,12 @@
+defimpl Phoenix.Param, for: Rumbl.Video do
+  def to_param(%{slug: slug, id: id}) do
+    "#{id}-#{slug}"
+  end
+end
+
 defmodule Rumbl.Video do
   use Rumbl.Web, :model
+  @primary_key { :id, Rumbl.Permalink, autogenerate: true }
 
   schema "videos" do
     field :url, :string
@@ -9,6 +16,7 @@ defmodule Rumbl.Video do
     belongs_to :category, Rumbl.Category
 
     timestamps
+    field :slug, :string
   end
 
   @required_fields ~w(url title description)
@@ -23,6 +31,21 @@ defmodule Rumbl.Video do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> slugify_title()
     |> foreign_key_constraint(:category_id)
+  end
+
+  defp slugify_title(changeset) do
+    if title = get_change(changeset, :title) do
+      put_change(changeset, :slug, slugify(title))
+    else
+      changeset
+    end
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/, "-")
   end
 end
